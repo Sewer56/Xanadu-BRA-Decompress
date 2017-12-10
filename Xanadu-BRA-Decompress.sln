@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26923.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xanadu-BRA-Decomrpess", "Xanadu-BRA-Decomrpess\Xanadu-BRA-Decomrpess.csproj", "{A07F888D-17C6-4789-AC87-42E7AE2C8426}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xanadu-BRA-Decompress", "Xanadu-BRA-Decomrpess\Xanadu-BRA-Decompress.csproj", "{A07F888D-17C6-4789-AC87-42E7AE2C8426}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -156,11 +156,30 @@ namespace Xanadu_BRA_Decompress
             string folderPath = Path.GetDirectoryName(filePath) + "\\" + Path.GetFileNameWithoutExtension(filePath);
             Directory.CreateDirectory(folderPath);
 
+            // Doubleline
+            Console.WriteLine("\n");
+
+            // Calculate formatting field lengths.
+            int nameLength = 0;
+            int archiveTimeLength = 0;
+            int compressedSizeLength = 0;
+            int uncompressedSizeLength = 0;
+            for (int x = 0; x < fileList.Count; x++)
+            {
+                DateTime archiveTime = new System.DateTime(1970, 1, 1).AddSeconds(fileList[x].filePackedTime);
+                if (Path.GetFileName(fileList[x].fileName).Length > nameLength) { nameLength = Path.GetFileName(fileList[x].fileName).Length; }
+                if (archiveTime.ToString().Length > archiveTimeLength) { archiveTimeLength = archiveTime.ToString().Length; }
+                if (Convert.ToString(fileList[x].compressedSize).Length > compressedSizeLength) { compressedSizeLength = Convert.ToString(fileList[x].compressedSize).Length; }
+                if (Convert.ToString(fileList[x].uncompressedSize).Length > uncompressedSizeLength) { uncompressedSizeLength = Convert.ToString(fileList[x].uncompressedSize).Length; }
+            }
+
             // For each file get subarray.
             for (int x = 0; x < fileList.Count; x++)
             {
-                // Print file name to stdout
-                Console.WriteLine(Path.GetFileName(fileList[x].fileName));
+                // Print file details to stdout.
+                DateTime archiveTime = new System.DateTime(1970, 1, 1).AddSeconds(fileList[x].filePackedTime);
+                string outputString = String.Format("{0, " + nameLength + "} | {1, "+  archiveTimeLength + "} | {2, " +  compressedSizeLength + "} | {3, " +  uncompressedSizeLength + "}", Path.GetFileName(fileList[x].fileName), archiveTime, fileList[x].compressedSize, fileList[x].uncompressedSize);
+                Console.WriteLine(outputString);
 
                 // Get path of final file
                 string filePath = Path.Combine(folderPath + "\\", fileList[x].fileName);
@@ -176,7 +195,17 @@ namespace Xanadu_BRA_Decompress
                 using (var compressStream = new MemoryStream(fileArray))
                 using (var deflateDecompressor = new DeflateStream(compressStream, CompressionMode.Decompress, false))
                 {
-                    deflateDecompressor.CopyTo(fileStream);
+                    // Check if decompression is necessary by comparing compressed & decompressed size.
+                    if (fileList[x].uncompressedSize == fileList[x].compressedSize - 16) // 16 = File Entry Header Length, if sizes are equal, no compression. i.e. uncompressedSize includes header.
+                    {
+                        // Do not decompress if not compressed.
+                        compressStream.CopyTo(fileStream);
+                    }
+                    else
+                    {
+                        // Decompress if compressed.
+                        deflateDecompressor.CopyTo(fileStream);
+                    } 
                 }
             }
         }

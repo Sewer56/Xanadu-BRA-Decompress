@@ -2,7 +2,7 @@
   "profiles": {
     "Xanadu-BRA-Decomrpess": {
       "commandName": "Project",
-      "commandLineArgs": "\"F:\\Games\\GOG\\Tokyo Xanadu eX\\Test\\System.bra\" \"-t\""
+      "commandLineArgs": "\"F:\\Games\\GOG\\Tokyo Xanadu eX\\Test\\Asset1.bra\" \"-t\" > D:\\Desktop\\output.txt"
     }
   }
 }
