@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Xanadu-BRA-Decomrpess": {
+      "commandName": "Project",
+      "commandLineArgs": "\"F:\\Games\\GOG\\Tokyo Xanadu eX\\Test\\System.bra\" \"-t\""
+    }
+  }
+}
