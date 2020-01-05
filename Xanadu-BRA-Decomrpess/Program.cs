@@ -184,7 +184,7 @@ namespace Xanadu_BRA_Decompress
                 Console.WriteLine(outputString);
 
                 // Get path of final file
-                string filePath = Path.Combine(folderPath, fileList[x].fileName);
+                string filePath = Path.Combine(folderPath, fileList[x].fileName.Replace("\\", Path.PathSeparator));
 
                 // Get subarray which contains the file.
                 byte[] fileArray = xanaduArchive.SubArray((int)(fileList[x].fileOffset + 16), (int)(fileList[x].compressedSize - 16));
