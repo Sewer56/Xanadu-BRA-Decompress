@@ -48,7 +48,9 @@ namespace Xanadu_BRA_Decompress
             Console.WriteLine("For personal use.");
             Console.WriteLine("Usage: Xanadu_BRA_Decompress <file.bra>");
             Console.WriteLine("Trim file extension (format has badly defined file names): Xanadu_BRA_Decompress <file.bra> -t\n");
-
+            if (args?.Length == 0)
+                return;
+            
             // Set file path.
             filePath = args[0];
 
@@ -67,7 +69,7 @@ namespace Xanadu_BRA_Decompress
             BenchmarkMethod(WriteFiles, "Writing Files");
 
             // Hii
-            Console.ReadLine();
+            Console.ReadKey();
         }
 
         ///////////////
@@ -153,7 +155,7 @@ namespace Xanadu_BRA_Decompress
         private static void WriteFiles()
         {
             // Get path of folder to save files to & create.
-            string folderPath = Path.GetDirectoryName(filePath) + "\\" + Path.GetFileNameWithoutExtension(filePath);
+            string folderPath = Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath));
             Directory.CreateDirectory(folderPath);
 
             // Doubleline
@@ -182,7 +184,7 @@ namespace Xanadu_BRA_Decompress
                 Console.WriteLine(outputString);
 
                 // Get path of final file
-                string filePath = Path.Combine(folderPath + "\\", fileList[x].fileName);
+                string filePath = Path.Combine(folderPath, fileList[x].fileName.Replace("\\", Path.DirectorySeparatorChar.ToString()));
 
                 // Get subarray which contains the file.
                 byte[] fileArray = xanaduArchive.SubArray((int)(fileList[x].fileOffset + 16), (int)(fileList[x].compressedSize - 16));

@@ -1,0 +1,9 @@
+version: 1.0.{build}
+image: Visual Studio 2019
+before_build:
+- cmd: nuget restore
+build:
+  verbosity: minimal
+artifacts:
+- path: /Xanadu-BRA-Decomrpess/bin/Debug/netcoreapp2.0/
+  name: Xanadu-BRA-Decomrpess-dotnet2
