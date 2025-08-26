@@ -22,7 +22,7 @@ Pre-compiled binaries are available:
 - **macOS (Intel)**: [Xanadu-BRA-Decompress-osx-x64](https://github.com/Sewer56/Xanadu-BRA-Decompress/releases/latest/download/Xanadu-BRA-Decompress-osx-x64)
 - **macOS (Apple Silicon)**: [Xanadu-BRA-Decompress-osx-arm64](https://github.com/Sewer56/Xanadu-BRA-Decompress/releases/latest/download/Xanadu-BRA-Decompress-osx-arm64)
 
-(These should not require any additional dependencies on a typical system.)
+(These should not require any additional dependencies on a typical system.)  
 You can then use from command prompt or terminal.
 
 ```bash
@@ -40,8 +40,6 @@ e.g. `Xanadu-BRA-Decompress-win-x64.exe System.bra -t`
   - With `-t`: Trims extension length for cleaner output
 
 ## Archive Format Details
-
-Tokyo Xanadu eX+ uses a "badly defined archive format" with the following 010 Editor template structure:
 
 ```c
 // Archive Header (0x10 bytes)
