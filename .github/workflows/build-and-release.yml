@@ -1,0 +1,81 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ master ]
+    tags: [ '*' ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            runtime: win-x64
+            extension: .exe
+          - os: ubuntu-latest
+            runtime: linux-x64
+            extension: ''
+          - os: macos-latest
+            runtime: osx-x64
+            extension: ''
+          - os: macos-latest
+            runtime: osx-arm64
+            extension: ''
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build and publish
+      run: dotnet publish Xanadu-BRA-Decomrpess/Xanadu-BRA-Decompress.csproj --configuration Release --runtime ${{ matrix.runtime }} --self-contained true --output ./publish/${{ matrix.runtime }}
+
+    - name: Rename executable
+      shell: bash
+      run: |
+        cd ./publish/${{ matrix.runtime }}
+        if [ "${{ matrix.extension }}" = ".exe" ]; then
+          mv "Xanadu-BRA-Decompress.exe" "Xanadu-BRA-Decompress-${{ matrix.runtime }}${{ matrix.extension }}"
+        else
+          mv "Xanadu-BRA-Decompress" "Xanadu-BRA-Decompress-${{ matrix.runtime }}"
+        fi
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Xanadu-BRA-Decompress-${{ matrix.runtime }}
+        path: ./publish/${{ matrix.runtime }}/Xanadu-BRA-Decompress-${{ matrix.runtime }}${{ matrix.extension }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: ./artifacts
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          ./artifacts/Xanadu-BRA-Decompress-win-x64/Xanadu-BRA-Decompress-win-x64.exe
+          ./artifacts/Xanadu-BRA-Decompress-linux-x64/Xanadu-BRA-Decompress-linux-x64
+          ./artifacts/Xanadu-BRA-Decompress-osx-x64/Xanadu-BRA-Decompress-osx-x64
+          ./artifacts/Xanadu-BRA-Decompress-osx-arm64/Xanadu-BRA-Decompress-osx-arm64
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
