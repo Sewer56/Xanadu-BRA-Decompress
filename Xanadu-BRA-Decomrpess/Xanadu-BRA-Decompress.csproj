@@ -5,6 +5,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>Xanadu-BRA-Decompress</AssemblyName>
     <RootNamespace>Xanadu-BRA-Decompress</RootNamespace>
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
 </Project>
