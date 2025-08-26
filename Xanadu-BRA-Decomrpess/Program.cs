@@ -67,9 +67,6 @@ internal class Program
 
         // Read File Details
         BenchmarkMethod(WriteFiles, "Writing Files");
-
-        // Hii
-        Console.ReadKey();
     }
 
     /// <summary>
